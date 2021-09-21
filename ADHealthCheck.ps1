@@ -21,10 +21,10 @@ ElseIf ($_.LastWriteTime -lt (Get-Date).AddDays($days * -1))
 #get-Childitem -recurse $strFilePath | Select-FileAge $intFileAge 'CreationTime' |Remove-Item
  
 Function send_mail([string]$message,[string]$subject) {
-$emailFrom = "sender@mail.com"
-$emailTo = "to@mail.com"
-$emailCC = "cc@mail.com"
-$smtpServer = "smtp.mail.com"
+$emailFrom = "sender@woshub.com"
+$emailTo = "to@woshub.com"
+$emailCC = "cc@woshub.com"
+$smtpServer = "smtp.woshub.com"
 Send-MailMessage -SmtpServer $smtpServer -To $emailTo -Cc $emailCC -From $emailFrom -Subject $subject -Body $message -BodyAsHtml
 }
 ###Test all forest 
@@ -33,7 +33,7 @@ Send-MailMessage -SmtpServer $smtpServer -To $emailTo -Cc $emailCC -From $emailF
 ###
 
 ###Test specific AD domain
-$Domain = "test.com"
+$Domain = "woshub.com"
 $dclist = (Get-ADDomain $Domain -Server $Domain).ReplicaDirectoryServers
 ###
 
