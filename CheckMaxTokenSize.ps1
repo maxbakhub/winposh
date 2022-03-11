@@ -67,7 +67,7 @@ if ($OSEmulation -eq $false)
                                                       $OperatingSystem = "Windows 8.1"
                                                       $OSBuild = $OS.BuildNumber
                                                       }
-												elseif ($OS.BuildNumber -eq 10586)
+						      elseif ($OS.BuildNumber -ge 10586)
                                                 	{
                                                 	$OperatingSystem = "Windows 10"
                                                 	$OSBuild = $OS.BuildNumber
@@ -334,9 +334,9 @@ foreach ($Principal in $Principals)
       $MaxTokenSizeValue = $KerbKey.GetValue('MaxTokenSize')
 	  if ($MaxTokenSizeValue -eq $null)
 	  	{
-		if ($OSBuild -lt 9200)
+		if ([int]$OSBuild -lt 9200)
 			{$MaxTokenSizeValue = 12000}
-		if ($OSBuild -ge 9200)
+		if ([int]$OSBuild -ge 9200)
 			{$MaxTokenSizeValue = 48000}
 		}
         Write-Host "Effective MaxTokenSize value is: $Maxtokensizevalue"
@@ -344,15 +344,15 @@ foreach ($Principal in $Principals)
 
       #Assess OS so we can alert based on default for proper OS version. Windows 8 and Server 2012 allow for a larger token size safely.
       $ProblemDetected = $false
-      if (($OSBuild -lt 9200) -and (($Tokensize -ge 12000) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
+      if (([int]$OSBuild -lt 9200) -and (($Tokensize -ge 12000) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
             {
             Write-Host "Problem detected. The token was too large for consistent authorization. Alter the maximum size per KB http://support.microsoft.com/kb/327825 and consider reducing direct and transitive group memberships." -ForegroundColor "red"
             }
-      elseif ((($OSBuild -eq 9200) -or ($OSBuild -eq 9600)) -and (($Tokensize -ge 48000) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
+      elseif ((([int]$OSBuild -eq 9200) -or ([int]$OSBuild -eq 9600)) -and (($Tokensize -ge 48000) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
             {
             Write-Host "Problem detected. The token was too large for consistent authorization. Alter the maximum size per KB http://support.microsoft.com/kb/327825 and consider reducing direct and transitive group memberships." -ForegroundColor "red"
             }
-      elseif (($OSBuild -eq 10586) -and (($Tokensize -ge 65535) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
+      elseif (([int]$OSBuild -eq 10586) -and (($Tokensize -ge 65535) -or ((($Tokensize -gt $MaxTokenSizeValue) -or ($DelegatedTokenSize -gt $MaxTokenSizeValue)) -and ($MaxTokenSizeValue -ne $null))))
             {
             Write-Host "WARNING: The token was large enough that it may have problems when being used for Kerberos delegation or for access to Active Directory domain controller services. Alter the maximum size per KB http://support.microsoft.com/kb/327825 and consider reducing direct and transitive group memberships." -ForegroundColor "yellow"
             }
