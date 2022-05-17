@@ -1,5 +1,5 @@
 #Create Active Directory OU structure, security groups and assign permissions for a new branch office
-# 
+# ref. http://woshub.com/create-organizational-unit-structure-ad-powershell/
 
 # Set the containers name
 $Country="DE"
