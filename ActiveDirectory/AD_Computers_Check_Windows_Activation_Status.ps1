@@ -1,5 +1,5 @@
 # Script to get Windows activation status on all computers in Active Directory
-# Details: http://woshub.com/
+# Details: http://woshub.com/check-windows-activation-status/
 enum Licensestatus{
     Unlicensed = 0
     Licensed = 1
