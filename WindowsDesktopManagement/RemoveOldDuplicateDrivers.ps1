@@ -1,5 +1,5 @@
 # Use this PowerShell script to find and remove old and unused device drivers from the Windows Driver Store
-# Explain: http://woshub.com/how-to-remove-unused-drivers-from-driver-store/
+# Explanation: http://woshub.com/how-to-remove-unused-drivers-from-driver-store/
 
 $dismOut = dism /online /get-drivers
 $Lines = $dismOut | select -Skip 10
