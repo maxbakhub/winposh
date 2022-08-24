@@ -20,7 +20,7 @@ If ($checkPattern -ne $null) {
     $dll_as_text_replaced = $dll_as_text -replace $patternregex, $patch
 }
 Elseif (Select-String -Pattern $patch -InputObject $dll_as_text) {
-    Write-Output 'The termsrv.dll file is already patch, exitting'
+    Write-Output 'The termsrv.dll file is already patched, exiting'
     Exit
 }
 else { 
