@@ -1,4 +1,4 @@
-# You can use the script to clean folders in a user profile (cache, temp, downloads, google chrome cache)
+# PowerShell script used to clean folders in a user profile (cache, temp, downloads, google chrome cache)
 # The PowerShell script is run as a user (no administrator privileges are required). Only temporary files and the current user's cache are deleted.
 # You can run this script via GPO (logoff script) or with the Task Scheduler
 # Use the script on RDS hosts, VDIs, or workstations to clean up user profiles
