@@ -22,7 +22,7 @@ $TokenResponse = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$Tena
 # List teams
 header= @{Authorization = "Bearer $($TokenResponse.access_token)"}
 $BaseURI = "https://graph.microsoft.com/beta"
-$AllMicrosoftTeams = (Invoke-RestMethod -Uri  "$($BaseURI)/groups?`$filter=resourceProvisioningOptions/Any(x:x eq 'Team')" -Headers $header -Method Get -ContentType "application/json").value
+$AllMicrosoftTeams = (Invoke-RestMethod -Uri  "$($BaseURI)/groups?'$filter=resourceProvisioningOptions/Any(x:x eq 'Team')" -Headers $header -Method Get -ContentType "application/json").value
 $AllMicrosoftTeams| FT id, DisplayName,Description
 
 # List channels in specific team
@@ -60,7 +60,7 @@ foreach ($message in $Messages)
     $result.body = $message.body.content
     $messageSet.Add($result)
     #parsing replies
-    $repliesURI = "https://graph.microsoft.com/beta/teams/" + $TeamsID + "/channels/" + $ChannelID + "/messages/" + $message.ID + "/replies?`$top100"
+    $repliesURI = "https://graph.microsoft.com/beta/teams/" + $TeamsID + "/channels/" + $ChannelID + "/messages/" + $message.ID + "/replies?'$top100"
     $repliesResponse = Invoke-RestMethod -Method Get -Uri $repliesURI  -Headers $header
     foreach ($reply in $repliesResponse.value)
      {
