@@ -9,7 +9,7 @@ $termsrv_dll_acl = Get-Acl c:\windows\system32\termsrv.dll
 Copy-Item c:\windows\system32\termsrv.dll c:\windows\system32\termsrv.dll.copy
 takeown /f c:\windows\system32\termsrv.dll
 $new_termsrv_dll_owner = (Get-Acl c:\windows\system32\termsrv.dll).owner
-cmd /c "icacls c:\windows\system32\termsrv.dll /Grant $($new_termsrv_dll_owner):F /C"
+cmd /c "icacls c:\windows\system32\termsrv.dll /Grant ""$($new_termsrv_dll_owner):F"" /C"
 # search for a pattern in termsrv.dll file 
 $dll_as_bytes = Get-Content c:\windows\system32\termsrv.dll -Raw -Encoding byte
 $dll_as_text = $dll_as_bytes.forEach('ToString', 'X2') -join ' '
