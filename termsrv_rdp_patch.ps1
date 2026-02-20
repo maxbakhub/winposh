@@ -1,7 +1,17 @@
 # PowerShell script used to patch termsrv.dll file and allow multiple RDP connections on Windows 10 (1809 and never) and Windows 11 
 # Details here http://woshub.com/how-to-allow-multiple-rdp-sessions-in-windows-10/
 
-
+# Checking OS version
+$osInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+$releaseId = $osInfo.releaseId
+$currentBuild = $osInfo.currentBuild
+$displayVersion = $osInfo.displayVersion
+Write-Output "Detected Windows Version: $displayVersion (Build $currentBuild)"
+if ($displayVersion -eq "24H2") {
+    Write-Output "This script does NOT support Windows 24H2. Exiting to avoid any system damage or corruption, exiting"
+    Start-Sleep -Seconds 5
+    Exit
+}
 # Stop RDP service, make a backup of the termsrv.dllfile and change the permissions 
 Stop-Service UmRdpService -Force
 Stop-Service TermService -Force
@@ -20,6 +30,7 @@ If ($checkPattern -ne $null) {
     $dll_as_text_replaced = $dll_as_text -replace $patternregex, $patch
 }
 Elseif (Select-String -Pattern $patch -InputObject $dll_as_text) {
+    Start-Sleep -Seconds 5
     Write-Output 'The termsrv.dll file is already patched, exiting'
     Exit
 }
